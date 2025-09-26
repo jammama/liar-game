@@ -8,7 +8,7 @@ let users = {}
 let topic = categories[0];
 
 const socket = io(`https://asdof.xyz/`, {query: {room: window.location.pathname}});
-// const socket = io('http://localhost:3000/',  {query: {room: window.location.pathname});
+// const socket = io('http://localhost:3000/',  {query: {room: window.location.pathname}});
 // 접속시 parsing된 본인 id 확인
 socket.on('id', (data) => {
     myId = data
@@ -36,7 +36,7 @@ function selectLiar() {
     const otherUsers = users.filter((id) => liar !== id)
     socket.emit('message', JSON.stringify({act: 'liar', to: liar, word: `${topic}`}))
     otherUsers.map(
-        other => socket.emit('message', JSON.stringify({act: 'player', to: other, word: `${topic} : ${word}`}))
+        other => socket.emit('message', JSON.stringify({act: 'player', to: other, word: `${word}[${topic}]`}))
     )
     console.log(word)
 
@@ -53,24 +53,27 @@ function scrollToBottom() {
     chatBox.scrollTop = chatBox.scrollHeight;
 }
 
-// 메세지 노출
-function displayMessage(data) {
+function appendMessage(text, className) {
     const messageDiv = document.createElement('div');
     const messageContent = document.createElement('div');
-    messageContent.classList.add('message-text');
-
-    const msgObj = JSON.parse(data.msg);
-    if(msgObj.act === 'liar' && myId === msgObj.to) {
-        messageContent.textContent = `당신은 라이어입니다. 단어 주제는 ${msgObj.word} 입니다. 
-        현재 인원수가 ${users.length}명이 맞는지 확인하세요.`
-    }
-    if(msgObj.act === 'player' && myId === msgObj.to) {
-        messageContent.textContent = `당신은 플레이어입니다. 단어는 ${msgObj.word} 입니다. 
-        현재 인원수가 ${users.length}명이 맞는지 확인하세요.`
-    }
+    messageContent.classList.add('message-text')
+    messageContent.classList.add(className);
+    messageContent.textContent = text;
     messageDiv.appendChild(messageContent);
     chatBox.appendChild(messageDiv);
 }
+// 메세지 노출
+function displayMessage(data) {
+
+    const msgObj = JSON.parse(data.msg);
+    if(msgObj.act === 'liar' && myId === msgObj.to) {
+        appendMessage(`당신은 라이어입니다. 주제 : ${msgObj.word}. 현재 인원: ${users.length}명.`, 'liar')
+    }
+    if(msgObj.act === 'player' && myId === msgObj.to) {
+        appendMessage(`당신은 플레이어입니다. 단어: ${msgObj.word}. 현재 인원: ${users.length}명.`, 'player')
+    }
+}
+
 startGameBtn.addEventListener('click', selectLiar);
 topicInput.addEventListener('change', (e) => {
     topic = e.target.value;
