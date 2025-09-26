@@ -1,11 +1,11 @@
-import { words } from './words.js';
+import {categories, words} from './words.js';
 const chatBox = document.getElementById('chatBox');
 
 const startGameBtn = document.getElementById('startGameBtn');
 const topicInput = document.getElementById('topicInput');
 let myId = '';
 let users = {}
-let topic = '';
+let topic = categories[0];
 
 const socket = io(`https://asdof.xyz/`, {query: {room: window.location.pathname}});
 // const socket = io('http://localhost:3000/',  {query: {room: window.location.pathname});
@@ -21,6 +21,7 @@ socket.on('message', (data) => {
     if(!data.msg.startsWith('{'))
         return
     displayMessage(data);
+    scrollToBottom()
 });
 // 유저리스트 수신
 socket.on('users', (data) => {
@@ -29,37 +30,49 @@ socket.on('users', (data) => {
 })
 // 메세지 전송
 function selectLiar() {
-    // 랜덤한 유저 선택
     const word = selectRandomWord();
-    const liar = users[Math.random() * users.length]
+    // 랜덤한 유저 선택
+    const liar = users[Math.floor(Math.random() * users.length)]
     const otherUsers = users.filter((id) => liar !== id)
-    socket.emit('message', JSON.stringify({act: 'liar', to: liar, word: word}))
+    socket.emit('message', JSON.stringify({act: 'liar', to: liar, word: `${topic}`}))
     otherUsers.map(
-        other => socket.emit('message', JSON.stringify({act: 'player', to: other, word: word}))
+        other => socket.emit('message', JSON.stringify({act: 'player', to: other, word: `${topic} : ${word}`}))
     )
     console.log(word)
 
 }
 
 function selectRandomWord() {
-    const selectedWords =  words[topic] || words['food']
+    const selectedWords =  words[topic]
     console.log(topic, selectedWords)
     return selectedWords[Math.floor(Math.random() * selectedWords.length)]
 }
 
+// Scroll to the bottom
+function scrollToBottom() {
+    chatBox.scrollTop = chatBox.scrollHeight;
+}
+
 // 메세지 노출
 function displayMessage(data) {
+    const messageDiv = document.createElement('div');
+    const messageContent = document.createElement('div');
+    messageContent.classList.add('message-text');
+
     const msgObj = JSON.parse(data.msg);
     if(msgObj.act === 'liar' && myId === msgObj.to) {
-       chatBox.textContent = `당신은 라이어입니다. 현재 인원수가 ${users.length}명이 맞는지 확인하세요.`
-    }
-    if(msgObj.act === 'player' && myId === msgObj.to) {
-        chatBox.textContent = `당신은 플레이어입니다. 단어는 ${msgObj.word} 입니다. 
+        messageContent.textContent = `당신은 라이어입니다. 단어 주제는 ${msgObj.word} 입니다. 
         현재 인원수가 ${users.length}명이 맞는지 확인하세요.`
     }
-    console.log(msgObj, data)
+    if(msgObj.act === 'player' && myId === msgObj.to) {
+        messageContent.textContent = `당신은 플레이어입니다. 단어는 ${msgObj.word} 입니다. 
+        현재 인원수가 ${users.length}명이 맞는지 확인하세요.`
+    }
+    messageDiv.appendChild(messageContent);
+    chatBox.appendChild(messageDiv);
 }
 startGameBtn.addEventListener('click', selectLiar);
 topicInput.addEventListener('change', (e) => {
     topic = e.target.value;
 })
+

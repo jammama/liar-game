@@ -59,3 +59,5 @@ export const words = {
         "정치인", "대통령", "국회의원", "시장", "외교관", "대사", "통역사", "번역가", "관광가이드"
     ]
 }
+
+export const categories = Object.keys(words);
