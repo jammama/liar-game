@@ -1,0 +1,74 @@
+.user-list-btn {
+    background: linear-gradient(90deg, #fff0fa 30%, #e4f1ff 100%);
+    color: #2679fd;
+    border: 1px solid #bcd5ec;
+    font-weight: bold;
+    border-radius: 7px;
+    padding: 6px 14px;
+    margin-bottom: 9px;
+    font-size: 15px;
+    box-shadow: 0 1px 6px #e0e8ff91;
+    cursor: pointer;
+}
+
+.user-list-popup {
+    position: fixed;
+    top: 0; left: 0; width: 100vw; height: 100vh;
+    background: rgba(28, 54, 91, 0.22);
+    z-index: 1001;
+    display: flex; align-items: center; justify-content: center;
+    animation: fadeInPopup 0.24s;
+}
+
+.popup-content {
+    background: #fff;
+    border-radius: 14px;
+    box-shadow: 0 6px 34px #2681e82a;
+    padding: 25px 22px 18px 22px;
+    min-width: 210px;
+    max-width: 90vw;
+    text-align: center;
+}
+
+.popup-title {
+    font-weight: bold;
+    color: #2679fd;
+    font-size: 1.12em;
+    margin-bottom: 13px;
+}
+
+#userList {
+    list-style: none;
+    padding: 0;
+    margin: 0 0 13px 0;
+    max-height: 32vh;
+    overflow-y: auto;
+}
+
+#userList li {
+    padding: 7px 0;
+    font-size: 1em;
+    border-bottom: 1px dashed #b2c7ee50;
+}
+
+.close-user-list-btn {
+    margin-top: 7px;
+    border: none;
+    background: #f2f5fa;
+    border-radius: 8px;
+    color: #3a6c85;
+    font-weight: 500;
+    font-size: 15px;
+    padding: 6px 24px;
+    cursor: pointer;
+    transition: background 0.1s;
+}
+
+.close-user-list-btn:hover {
+    background: #d5e4f5;
+}
+
+@keyframes fadeInPopup {
+    from { opacity: 0; }
+    to   { opacity: 1; }
+}
