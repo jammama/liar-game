@@ -29,17 +29,24 @@ socket.on('users', (data) => {
         userList.append(li);
     })
 })
+// check요청시 active 여부 응답
+socket.on('check', (data) => {
+    socket.emit('direct', {act: 'nickname', nick: 'test', active: true}, data.id)
+})
+
 
 // 메세지 노출
 function displayMessage(data) {
     const msgObj = JSON.parse(data.msg);
-    if(msgObj.act === 'liar' && myId === msgObj.to) {
-        appendMessage(`당신은 라이어입니다. 주제 : ${msgObj.word}. 현재 인원: ${users.length}명.`, 'liar')
+    if(msgObj.liar === myId) {
+        appendMessage(`당신은 라이어입니다. 주제 : ${msgObj.topic}. 현재 인원: ${users.length}명.`, 'liar')
+        setWordNow(`비밀~ [${msgObj.topic}]`)
+    } else {
+        appendMessage(`당신은 플레이어입니다. 단어: ${msgObj.word} [${msgObj.topic}]. 현재 인원: ${users.length}명.`, 'player')
+        setWordNow(`${msgObj.word} [${msgObj.topic}]`)
     }
-    if(msgObj.act === 'player' && myId === msgObj.to) {
-        appendMessage(`당신은 플레이어입니다. 단어: ${msgObj.word}. 현재 인원: ${users.length}명.`, 'player')
-    }
-    setWordNow(msgObj.word)
+
+
 }
 // Scroll to the bottom
 function scrollToBottom() {

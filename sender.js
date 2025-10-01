@@ -9,12 +9,12 @@ function selectLiar() {
     const word = selectRandomWord();
     // 랜덤한 유저 선택
     const liar = users[Math.floor(Math.random() * users.length)]
-    const otherUsers = users.filter((id) => liar !== id)
-    socket.emit('message', JSON.stringify({act: 'liar', to: liar, word: `[${topic}]`}))
-    otherUsers.map(
-        other => socket.emit('message', JSON.stringify({act: 'player', to: other, word: `[${topic}] ${word}`}))
-    )
+    socket.emit('message', JSON.stringify({ act: 'play', liar, topic, word }))
 }
+function checkActiveUser() {
+    socket.emit('message', JSON.stringify({ act: 'check'}))
+}
+
 function selectRandomWord() {
     return selectedWords()[Math.floor(Math.random() * selectedWords().length)]
 }

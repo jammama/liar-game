@@ -22,15 +22,17 @@
         <button id="closeWordListBtn" class="close-list-btn">닫기</button>
     </div>
 </div>
+<button id="showUserListBtn" class="list-btn">접속유저목록</button>
 <div class="chat-container" style="bottom: 1px">
     <div>
     내 아이디: <span id="myId"></span>
-        <button id="showUserListBtn" class="list-btn">접속유저목록</button>
+        <label for="nickName">닉네임: </label><input id="nickName" type="text"/>
+        <span id="setNickNameBtn">참가하기</span>
+
     </div>
     <div>
         <span> 현재 단어 : </span><span id="wordNow"></span>
     </div>
-
         <div class="chat-box" id="chatBox"></div>
     <div class="input-area">
         <button id="startGameBtn">게임시작</button>
