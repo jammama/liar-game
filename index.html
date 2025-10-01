@@ -3,24 +3,34 @@
 <head>
     <meta charset="UTF-8">
     <title>라이어게임</title>
-    <link rel="stylesheet" href="styles.css"/>
-    <link rel="stylesheet" href="userlist.css"/>
+    <link rel="stylesheet" href="css/styles.css"/>
+    <link rel="stylesheet" href="css/userlist.css"/>
     <link rel="icon" href="favicon.png" type="image/png">
 </head>
 <body>
+<div id="userListPopup" class="list-popup" style="display: none">
+    <div class="popup-content">
+        <div class="popup-title">접속중인 유저</div>
+        <ul id="userList"></ul>
+        <button id="closeUserListBtn" class="close-list-btn">닫기</button>
+    </div>
+</div>
+<div id="wordListPopup" class="list-popup word" style="display: none">
+    <div class="popup-content">
+        <div class="popup-title">단어 목록</div>
+        <ul id="wordList"></ul>
+        <button id="closeWordListBtn" class="close-list-btn">닫기</button>
+    </div>
+</div>
 <div class="chat-container" style="bottom: 1px">
-
     <div>
     내 아이디: <span id="myId"></span>
-        <button id="showUserListBtn" class="user-list-btn">접속유저목록</button>
-        <div id="userListPopup" class="user-list-popup">
-            <div class="popup-content">
-                <div class="popup-title">접속중인 유저</div>
-                <ul id="userList"></ul>
-                <button id="closeUserListBtn" class="close-user-list-btn">닫기</button>
-            </div>
-        </div>
+        <button id="showUserListBtn" class="list-btn">접속유저목록</button>
     </div>
+    <div>
+        <span> 현재 단어 : </span><span id="wordNow"></span>
+    </div>
+
         <div class="chat-box" id="chatBox"></div>
     <div class="input-area">
         <button id="startGameBtn">게임시작</button>
@@ -31,11 +41,14 @@
             <option value="object">object</option>
             <option value="person">person</option>
         </select>
+    <button id="showWordListBtn" class="list-btn">단어목록</button>
     </div>
 </div>
 </body>
+<script src="libs/socket.io.min.js"></script>
+<script src="socket.js" type="module"></script>
 <script src="words.js" type="module"></script>
 <script src="userlist.js" type="module"></script>
-<script src="libs/socket.io.min.js"></script>
-<script src="chat.js" type="module"></script>
+<script src="receiver.js" type="module"></script>
+<script src="sender.js" type="module"></script>
 </html>

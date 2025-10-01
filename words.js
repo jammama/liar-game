@@ -1,4 +1,4 @@
-export const words = {
+const words = {
     food: [
         "김치", "된장찌개", "비빔밥", "불고기", "삼겹살", "치킨", "피자", "햄버거", "스파게티", "라면",
         "짬뽕", "짜장면", "떡볶이", "순대", "어묵", "만두", "쌀국수", "초밥", "사시미", "우동",
@@ -59,5 +59,37 @@ export const words = {
         "정치인", "대통령", "국회의원", "시장", "외교관", "대사", "통역사", "번역가", "관광가이드"
     ]
 }
+const categories = Object.keys(words);
+export let topic = categories[0];
+export const selectedWords = () => words[topic];
 
-export const categories = Object.keys(words);
+const topicInput = document.getElementById('topicInput');
+const showWordBtn = document.getElementById('showWordListBtn');
+const popup = document.getElementById('wordListPopup');
+const closeWordBtn = document.getElementById('closeWordListBtn');
+const wordList = document.getElementById('wordList');
+
+wordList.innerHTML = `<li>${selectedWords()}</li>`
+// 팝업 켜기
+showWordBtn.addEventListener('click', () => {
+    popup.style.display = 'flex';
+});
+
+// 팝업 끄기
+closeWordBtn.addEventListener('click', () => {
+    popup.style.display = 'none';
+});
+
+// 팝업 바깥 눌러도 닫힘
+popup.addEventListener('click', (e) => {
+    if (e.target === popup) popup.style.display = 'none';
+});
+
+// 토픽 변경
+topicInput.addEventListener('change', (e) => {
+    topic = e.target.value;
+    wordList.innerHTML = `<li>${selectedWords()}</li>`
+})
+
+
+

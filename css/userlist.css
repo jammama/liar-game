@@ -1,4 +1,4 @@
-.user-list-btn {
+.list-btn {
     background: linear-gradient(90deg, #fff0fa 30%, #e4f1ff 100%);
     color: #2679fd;
     border: 1px solid #bcd5ec;
@@ -11,7 +11,7 @@
     cursor: pointer;
 }
 
-.user-list-popup {
+.list-popup {
     position: fixed;
     top: 0; left: 0; width: 100vw; height: 100vh;
     background: rgba(28, 54, 91, 0.22);
@@ -51,7 +51,7 @@
     border-bottom: 1px dashed #b2c7ee50;
 }
 
-.close-user-list-btn {
+.close-list-btn {
     margin-top: 7px;
     border: none;
     background: #f2f5fa;
@@ -64,7 +64,7 @@
     transition: background 0.1s;
 }
 
-.close-user-list-btn:hover {
+.close-list-btn:hover {
     background: #d5e4f5;
 }
 
